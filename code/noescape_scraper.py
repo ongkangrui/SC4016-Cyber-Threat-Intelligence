@@ -1,4 +1,5 @@
 import requests
+import csv
 
 url = "http://noescapemsqxvizdxyl7f7rmg5cdjwp33pg2wpmiaaibilb4btwzttad.onion/"
 authurl = "http://noescapemsqxvizdxyl7f7rmg5cdjwp33pg2wpmiaaibilb4btwzttad.onion/c9cc21dcd195ed51/f0a89ce8cbaea9b0/auth"
@@ -19,3 +20,11 @@ header = {'Content-Type': 'application/json', 'Verify':'EsaymapRTc9JbqTHYcppgAJ8
 page = session.post(posturl, headers = header, data={})
 data = page.json()
 
+# save raw data into CSV file for later processing
+with open('noescaperaw.csv', 'w') as file:
+    fname = ["company_name", "company_address", "created_at", "available_data", "text"]
+    writer = csv.DictWriter(file, fieldnames=fname, extrasaction='ignore')
+    writer.writeheader()
+    for lists in data.values():
+        for company in lists:
+            writer.writerow(company)
